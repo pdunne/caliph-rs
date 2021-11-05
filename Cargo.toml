@@ -1,0 +1,34 @@
+[package]
+name = "caliph"
+version = "0.1.0"
+authors = ["Peter Dunne <peter.dunne@applied-magnetism.com>"]
+edition = "2021"
+description = "A simple tool to calibrate and convert pH measurements using a two point method"
+homepage = "https://www.applied-magnetism.com/"
+# repository = "https://github.com/pdunne/caliph-rs"
+readme = "README.md"
+categories = ["mathematics", "science"]
+license = "MPL-2.0"
+
+
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow="1.0"
+clap = "2.33"
+num-traits = "0.2"
+float-cmp = "0.9"
+splines = "4.0"
+
+[lib]
+name = "common"
+path = "src/common/lib.rs"
+
+[[bin]]
+name = "caliph"
+path = "src/bin/caliph.rs"
+
+[[bin]]
+name = "conph"
+path = "src/bin/conph.rs"
