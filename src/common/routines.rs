@@ -5,31 +5,72 @@ Copyright 2021 Peter Dunne */
 
 use super::fit;
 use super::{PH10_STATIC, PH4_STATIC, TEMP_STATIC};
+use float_cmp::ApproxEq;
 use splines::{Interpolation, Key, Spline};
 
-pub struct Calibration {
-    pub model: [f64; 2],
-    pub rms: Option<f64>,
-    pub rsq: Option<f64>,
+pub struct Calibration<F> {
+    pub slope: F,
+    pub offset: F,
+    pub rms: Option<F>,
+    pub rsq: Option<F>,
 }
 
-impl Calibration {
-    pub fn new(model: [f64; 2], rms: Option<f64>, rsq: Option<f64>) -> Calibration {
-        Calibration { model, rms, rsq }
+impl<'a, M: Copy + Default, F: Copy + ApproxEq<Margin = M>> ApproxEq for &'a Calibration<F> {
+    type Margin = M;
+
+    fn approx_eq<T: Into<Self::Margin>>(self, other: Self, margin: T) -> bool {
+        let margin = margin.into();
+        self.slope.approx_eq(other.slope, margin) && self.offset.approx_eq(other.offset, margin)
     }
 }
 
-impl Default for Calibration {
+impl<F> Calibration<F>
+where
+    F: Copy,
+{
+    pub fn new(slope: F, offset: F, rms: Option<F>, rsq: Option<F>) -> Calibration<F> {
+        Calibration {
+            slope,
+            offset,
+            rms,
+            rsq,
+        }
+    }
+
+    pub fn with_slope(&self, slope: F) -> Calibration<F> {
+        Calibration {
+            slope,
+            offset: self.offset,
+            rms: self.rms,
+            rsq: self.rsq,
+        }
+    }
+
+    pub fn with_offset(&self, offset: F) -> Calibration<F> {
+        Calibration {
+            slope: self.slope,
+            offset: offset,
+            rms: self.rms,
+            rsq: self.rsq,
+        }
+    }
+}
+
+impl<F> Default for Calibration<F>
+where
+    F: Default,
+{
     fn default() -> Self {
         Calibration {
-            model: [1.0, 0.0],
+            slope: F::default(),
+            offset: F::default(),
             rms: None,
             rsq: None,
         }
     }
 }
 
-pub fn ph_calibration(ph_measured: &[f64; 2], temperature: &f64) -> Calibration {
+pub fn ph_calibration(ph_measured: &[f64; 2], temperature: &f64) -> Calibration<f64> {
     let ph4_cal = interp_ph4(temperature).unwrap();
     let ph10_cal = interp_ph10(temperature).unwrap();
 
@@ -38,7 +79,12 @@ pub fn ph_calibration(ph_measured: &[f64; 2], temperature: &f64) -> Calibration 
     let calibration = fit::fit(ph_measured, &ph_cal);
     let fit_eval = fit::evaluate(ph_measured, &ph_cal, &calibration);
 
-    Calibration::new(calibration, Some(fit_eval[0]), Some(fit_eval[1]))
+    Calibration::new(
+        calibration[0],
+        calibration[1],
+        Some(fit_eval[0]),
+        Some(fit_eval[1]),
+    )
 }
 
 pub fn ph_convert(ph_measured: &f64, calibration: &[f64; 2]) -> f64 {
@@ -68,4 +114,25 @@ pub fn interp_ph10(temperature: &f64) -> Option<f64> {
 
     let val = spline.sample(*temperature);
     val
+}
+
+#[cfg(test)]
+mod tests {
+    use float_cmp::approx_eq;
+
+    use crate::routines::Calibration;
+
+    use super::ph_calibration;
+
+    #[test]
+    fn test_ph_calibration() {
+        let temperature = 21.0;
+        let ph_measured = [3.75, 9.49];
+        let res = ph_calibration(&ph_measured, &temperature);
+        let slope = 1.053658536585366;
+        let offset = 0.05078048780487787;
+        let test_calib = Calibration::default().with_slope(slope).with_offset(offset);
+
+        assert!(approx_eq!(&Calibration<f64>, &res, &test_calib))
+    }
 }
