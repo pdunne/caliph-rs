@@ -57,7 +57,7 @@ where
     pub fn with_offset(&self, offset: F) -> Calibration<F> {
         Calibration {
             slope: self.slope,
-            offset: offset,
+            offset,
             rms: self.rms,
             rsq: self.rsq,
         }
@@ -98,8 +98,7 @@ pub fn ph_calibration(ph_measured: &[f64; 2], temperature: &f64) -> Calibration<
 
 /// Converts the measured pH to a calibrated one using a known calibration
 pub fn ph_convert(ph_measured: &f64, calibration: &[f64; 2]) -> f64 {
-    let ph_calibrated = fit::predict(ph_measured, calibration);
-    ph_calibrated
+    fit::predict(ph_measured, calibration)
 }
 
 /// Interpolates the temperature dependence of a pH 4.01 buffer solution to give an arbitrary pH value between 5 to 95˚C
@@ -111,8 +110,7 @@ pub fn interp_ph4(temperature: &f64) -> Option<f64> {
 
     let spline = Spline::from_vec(zipped_points);
 
-    let val = spline.sample(*temperature);
-    val
+    spline.sample(*temperature)
 }
 
 /// Interpolates the temperature dependence of a pH 10.01 buffer solution to give an arbitrary pH value between 5 to 95˚C
@@ -124,8 +122,7 @@ pub fn interp_ph10(temperature: &f64) -> Option<f64> {
 
     let spline = Spline::from_vec(zipped_points);
 
-    let val = spline.sample(*temperature);
-    val
+    spline.sample(*temperature)
 }
 
 #[cfg(test)]

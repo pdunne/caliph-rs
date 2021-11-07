@@ -4,29 +4,41 @@ file, You can obtain one at https://mozilla.org/MPL/2.0/.
 Copyright 2021 Peter Dunne */
 //! Command line tool to correct a pH measurement using a calibration model.
 //!
-//! Examples:
+//!Assuming the `calibration.ph` file exists:
 //!
-//! Assuming the `calibration.ph` file exists:
-//! ```console
-//! conph 3.5
-//! ```
+//!```console
+//!$ conph 3.5
 //!
-//! Custom calibration settings fof the slope and offset:
-//! `-c` sets it to custom, `-s VAL` is for the slope, `-o VAL` is for the offset
-//! ```console
-//! conph 3.5 0 -c -s 1.1 -o 0.02
-//! ```
+//!---------------
+//!  Converting
+//!---------------
+//!Input   3.5
+//!Output  3.5495
+//!---------------
 //!
-//! Boolean flat to save the calibration to `calibration.ph` in the current directory:
-//! ```console
-//! caliph 3.97 10.2 -t 22.3 -s
-//! ```
-extern crate common;
+//!```
+//!
+//!Custom calibration settings fof the slope and offset:
+//!
+//!`-c` sets it to custom, `-s VAL` is for the slope, `-o VAL` is for the offset
+//!
+//!```console
+//!$ conph 3.5 -c -s 1.1 -o 0.02
+//!
+//!---------------
+//!  Converting
+//!---------------
+//!Input   3.5
+//!Output  3.8700
+//!---------------
+//!
+//!```
+//!
 use anyhow::Result;
 use termcolor::{ColorChoice, ColorSpec, StandardStream, WriteColor};
 
-use common::args::ConvArgs;
-use common::routines::ph_convert;
+use libcaliph::args::ConvArgs;
+use libcaliph::routines::ph_convert;
 use std::fs::File;
 use std::io::prelude::*;
 use std::io::BufReader;
@@ -36,7 +48,7 @@ fn main() -> Result<()> {
     let args = ConvArgs::parse();
 
     let ph_measured = args.ph;
-    let calibration = if args.custom == false {
+    let calibration = if !args.custom {
         let file = File::open("calibration.ph")?;
         let mut buf_reader = BufReader::new(file);
         let mut contents = String::new();

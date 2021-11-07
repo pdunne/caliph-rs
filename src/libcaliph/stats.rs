@@ -20,7 +20,7 @@ pub fn mean(values: &[f64]) -> f64 {
 
 /// Returns variance of an array of floats
 pub fn variance(values: &[f64]) -> f64 {
-    if values.len() == 0 {
+    if values.is_empty() {
         return 0f64;
     }
     let mean = mean(values);
@@ -48,5 +48,5 @@ pub fn covariance(x: &[f64], y: &[f64]) -> f64 {
         .map(|(x, y)| (x - mean_x) * (y - mean_y))
         .sum();
 
-    return covariance / length as f64;
+    covariance / length as f64
 }

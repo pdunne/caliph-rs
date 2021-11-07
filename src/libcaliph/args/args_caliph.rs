@@ -23,8 +23,8 @@ impl CalibArgs {
     pub fn parse() -> Self {
         let matches = App::new("caliph")
             .author("Peter Dunne")
-            .version("0.1.0")
-            .about("Calculates 2D magnetic fields")
+            .version("0.1.3")
+            .about("Calculates corrections from 2 point pH calibration")
             .arg(
                 Arg::with_name("ph4")
                     .help("pH measured for pH 4.01 buffer solution")

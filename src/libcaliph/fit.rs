@@ -9,7 +9,7 @@ use super::stats;
 /// Linear regression of x,y data
 /// Returns an array of [slope, offset]
 /// ```
-/// use crate::common::fit::fit;
+/// use crate::libcaliph::fit::fit;
 /// use float_cmp::approx_eq;
 /// let x = [1.0, 2.0, 3.0];
 /// let y = [3.0, 5.0, 7.0];
@@ -28,7 +28,7 @@ pub fn fit(x: &[f64], y: &[f64]) -> [f64; 2] {
 
 /// Gives predicted value using `model` for a given x
 /// ```
-/// use crate::common::fit::predict;
+/// use crate::libcaliph::fit::predict;
 /// use float_cmp::approx_eq;
 ///
 /// let model = [2.0, 3.5];
@@ -51,8 +51,7 @@ fn root_mean_squared_error(actual: &[f64], predicted: &[f64]) -> f64 {
         .map(|(x, y)| (x - y).powi(2))
         .sum();
 
-    let mse = (sum_error_iter / length as f64).sqrt();
-    mse
+    (sum_error_iter / length as f64).sqrt()
 }
 
 fn rsquared(y: &[f64], rms: &f64) -> f64 {
@@ -62,7 +61,7 @@ fn rsquared(y: &[f64], rms: &f64) -> f64 {
 /// Evaluates all data in a model, returning the root mean squared error (RMSE), and the R-Squared goodness of fit
 ///
 /// ```
-/// use crate::common::fit::{fit,evaluate};
+/// use crate::libcaliph::fit::{fit,evaluate};
 /// use float_cmp::approx_eq;
 ///
 /// let x = [1.05, 1.992, 3.03];

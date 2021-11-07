@@ -21,8 +21,8 @@ impl ConvArgs {
     pub fn parse() -> Self {
         let matches = App::new("conph")
             .author("Peter Dunne")
-            .version("0.1.0")
-            .about("Calculates 2D magnetic fields")
+            .version("0.1.3")
+            .about("Corrects pH measurement with calibration")
             .arg(
                 Arg::with_name("ph")
                     .help("pH measured")
@@ -32,7 +32,7 @@ impl ConvArgs {
             )
             .arg(
                 Arg::with_name("temperature")
-                    .help("temperature of measurement")
+                    .help("Temperature of measurement")
                     .short("t")
                     .long("temperature")
                     .takes_value(true),
@@ -56,7 +56,7 @@ impl ConvArgs {
                 Arg::with_name("offset")
                     .short("o")
                     .long("offset")
-                    .help("offset")
+                    .help("Offset")
                     .takes_value(true)
                     .requires_all(&["custom", "slope"]),
             )
@@ -70,7 +70,7 @@ impl ConvArgs {
 
         let custom = matches.is_present("custom");
 
-        let calibration = if custom == true {
+        let calibration = if custom {
             let slope = matches
                 .value_of("slope")
                 .unwrap_or_default()
