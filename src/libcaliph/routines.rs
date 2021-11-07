@@ -80,8 +80,8 @@ where
 
 /// Calculates the calibration values at give temperature for the measured pH values
 pub fn ph_calibration(ph_measured: &[f64; 2], temperature: &f64) -> Calibration<f64> {
-    let ph4_cal = interp_ph4(temperature).unwrap_or_else(|| 4.01);
-    let ph10_cal = interp_ph10(temperature).unwrap_or_else(|| 10.01);
+    let ph4_cal = interp_ph4(temperature).unwrap_or(4.01);
+    let ph10_cal = interp_ph10(temperature).unwrap_or(10.01);
 
     let ph_cal = [ph4_cal, ph10_cal];
 
