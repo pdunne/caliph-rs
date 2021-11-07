@@ -2,7 +2,7 @@
 name = "caliph"
 version = "0.1.3"
 authors = ["Peter Dunne <peter.dunne@applied-magnetism.com>"]
-edition = "2021"
+edition = "2018"
 description = "A simple tool to calibrate and convert pH measurements using a two point method"
 homepage = "https://www.applied-magnetism.com/"
 repository = "https://github.com/pdunne/caliph-rs"
