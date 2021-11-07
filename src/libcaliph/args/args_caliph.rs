@@ -23,7 +23,7 @@ impl CalibArgs {
     pub fn parse() -> Self {
         let matches = App::new("caliph")
             .author("Peter Dunne")
-            .version("0.1.3")
+            .version("0.1.4")
             .about("Calculates corrections from 2 point pH calibration")
             .arg(
                 Arg::with_name("ph4")

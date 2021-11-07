@@ -21,7 +21,7 @@ impl ConvArgs {
     pub fn parse() -> Self {
         let matches = App::new("conph")
             .author("Peter Dunne")
-            .version("0.1.3")
+            .version("0.1.4")
             .about("Corrects pH measurement with calibration")
             .arg(
                 Arg::with_name("ph")
