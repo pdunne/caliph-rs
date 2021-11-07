@@ -7,17 +7,46 @@ A simple tool to calibrate and convert pH measurements using a two point method.
 
 The two command line tools are `caliph`, and '`conph`.
 
+## Calibration
+
 Usage:
 
 When the temperature is 25˚C during the measurement:
 ```console
 caliph 3.97 10.2
 ```
+
+
 Optional temperature argument:
+
 ```console
 caliph 3.97 10.2 -t 22.3
+
 ```
 Boolean flat to save the calibration to `calibration.ph` in the current directory:
+
+```console
+caliph 3.97 10.2 -t 22.3 -s
+```
+ 
+ ## Conversion
+ 
+ Assuming the `calibration.ph` file exists:
+ 
+```console
+conph 3.5
+```
+
+Custom calibration settings fof the slope and offset:
+
+`-c` sets it to custom, `-s VAL` is for the slope, `-o VAL` is for the offset
+```console
+conph 3.5 0 -c -s 1.1 -o 0.02
+```
+
+
+Boolean flat to save the calibration to `calibration.ph` in the current directory:
+
 ```console
 caliph 3.97 10.2 -t 22.3 -s
 ```
