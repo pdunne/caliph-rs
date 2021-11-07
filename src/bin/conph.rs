@@ -1,7 +1,26 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at https://mozilla.org/MPL/2.0/.
+Copyright 2021 Peter Dunne */
+//! Command line tool to correct a pH measurement using a calibration model.
 //!
+//! Examples:
 //!
+//! Assuming the `calibration.ph` file exists:
+//! ```console
+//! conph 3.5
+//! ```
 //!
+//! Custom calibration settings fof the slope and offset:
+//! `-c` sets it to custom, `-s VAL` is for the slope, `-o VAL` is for the offset
+//! ```console
+//! conph 3.5 0 -c -s 1.1 -o 0.02
+//! ```
 //!
+//! Boolean flat to save the calibration to `calibration.ph` in the current directory:
+//! ```console
+//! caliph 3.97 10.2 -t 22.3 -s
+//! ```
 extern crate common;
 use anyhow::Result;
 use termcolor::{ColorChoice, ColorSpec, StandardStream, WriteColor};

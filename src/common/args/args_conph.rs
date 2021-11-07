@@ -1,5 +1,9 @@
-///! # Arguments Module
-///! Read in command line arguments using clap
+/* This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at https://mozilla.org/MPL/2.0/.
+Copyright 2021 Peter Dunne */
+
+///! Read in command line arguments for `conph` using clap
 use clap::{App, Arg};
 
 /// Command line arguments struct, infile, outfile, and silent (i.e. emit to stdout)

@@ -1,3 +1,23 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at https://mozilla.org/MPL/2.0/.
+Copyright 2021 Peter Dunne */
+//! Command line tool to calibrate a pH meter
+//!
+//! When the temperature is 25˚C during the measurement:
+//! ```console
+//! caliph 3.97 10.2
+//! ```
+//!
+//! Optional temperature argument:
+//! ```console
+//! caliph 3.97 10.2 -t 22.3
+//! ```
+//!
+//! Boolean flat to save the calibration to `calibration.ph` in the current directory:
+//! ```console
+//! caliph 3.97 10.2 -t 22.3 -s
+//! ```
 extern crate common;
 
 use anyhow::Result;
@@ -20,17 +40,11 @@ fn main() -> Result<()> {
     writeln!(&mut stdout, "  Calibrating")?;
     stdout.reset()?;
     writeln!(&mut stdout, "-----------------")?;
-
     stdout.set_color(ColorSpec::new().set_bold(true))?;
     writeln!(&mut stdout, "Slope\t{:.5}", calibration.slope)?;
     println!("Offset\t{:.5}", calibration.offset);
     stdout.reset()?;
-
     writeln!(&mut stdout, "-----------------")?;
-
-    // println!("RMS\t{:.3e}", calibration.rms.unwrap());
-    // println!("R^2\t{:.04}", calibration.rsq.unwrap());
-    // writeln!(&mut stdout, "-----------------")?;
 
     if args.store == true {
         let mut file = File::create("calibration.ph")?;

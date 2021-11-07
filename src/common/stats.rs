@@ -24,7 +24,6 @@ pub fn variance(values: &[f64]) -> f64 {
         return 0f64;
     }
     let mean = mean(values);
-
     values.iter().map(|x| (x - mean).powi(2)).sum::<f64>() / values.len() as f64
 }
 

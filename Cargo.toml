@@ -1,6 +1,6 @@
 [package]
 name = "caliph"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Peter Dunne <peter.dunne@applied-magnetism.com>"]
 edition = "2021"
 description = "A simple tool to calibrate and convert pH measurements using a two point method"
@@ -34,4 +34,8 @@ path = "src/bin/caliph.rs"
 name = "conph"
 path = "src/bin/conph.rs"
 
-
+[package.metadata.docs.rs]
+rustdoc-args = [
+    "--html-in-header",
+    "./src/katex.html"
+] 
