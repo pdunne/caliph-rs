@@ -21,40 +21,40 @@ impl ConvArgs {
     pub fn parse() -> Self {
         let matches = App::new("conph")
             .author("Peter Dunne")
-            .version("0.1.4")
+            .version("0.1.5")
             .about("Corrects pH measurement with calibration")
             .arg(
-                Arg::with_name("ph")
+                Arg::new("ph")
                     .help("pH measured")
                     .index(1)
                     .required(true)
                     .takes_value(true),
             )
             .arg(
-                Arg::with_name("temperature")
+                Arg::new("temperature")
                     .help("Temperature of measurement")
-                    .short("t")
+                    .short('t')
                     .long("temperature")
                     .takes_value(true),
             )
             .arg(
-                Arg::with_name("custom")
-                    .short("c")
+                Arg::new("custom")
+                    .short('c')
                     .long("custom")
                     .help("Custom Input")
                     .requires_all(&["slope", "offset"]),
             )
             .arg(
-                Arg::with_name("slope")
-                    .short("s")
+                Arg::new("slope")
+                    .short('s')
                     .long("slope")
                     .help("Slope")
                     .takes_value(true)
                     .requires_all(&["custom", "offset"]),
             )
             .arg(
-                Arg::with_name("offset")
-                    .short("o")
+                Arg::new("offset")
+                    .short('o')
                     .long("offset")
                     .help("Offset")
                     .takes_value(true)

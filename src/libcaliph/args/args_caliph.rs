@@ -23,32 +23,32 @@ impl CalibArgs {
     pub fn parse() -> Self {
         let matches = App::new("caliph")
             .author("Peter Dunne")
-            .version("0.1.4")
+            .version("0.1.5")
             .about("Calculates corrections from 2 point pH calibration")
             .arg(
-                Arg::with_name("ph4")
+                Arg::new("ph4")
                     .help("pH measured for pH 4.01 buffer solution")
                     .index(1)
                     .required(true)
                     .takes_value(true),
             )
             .arg(
-                Arg::with_name("ph10")
+                Arg::new("ph10")
                     .help("pH measured for pH 10.01 buffer solution")
                     .index(2)
                     .required(true)
                     .takes_value(true),
             )
             .arg(
-                Arg::with_name("temperature")
+                Arg::new("temperature")
                     .help("temperature of measurement")
-                    .short("t")
+                    .short('t')
                     .long("temperature")
                     .takes_value(true),
             )
             .arg(
-                Arg::with_name("store")
-                    .short("s")
+                Arg::new("store")
+                    .short('s')
                     .long("store")
                     .help("Store calibration to file calib.ph"),
             )

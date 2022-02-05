@@ -1,5 +1,4 @@
 /target
-Cargo.lock
 .DS*
 calibrate.ph
 calibration.ph
