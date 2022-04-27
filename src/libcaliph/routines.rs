@@ -131,7 +131,7 @@ mod tests {
 
     use crate::routines::Calibration;
 
-    use super::ph_calibration;
+    use super::{ph_calibration, ph_convert};
 
     #[test]
     fn test_ph_calibration() {
@@ -143,5 +143,15 @@ mod tests {
         let test_calib = Calibration::default().with_slope(slope).with_offset(offset);
 
         assert!(approx_eq!(&Calibration<f64>, &res, &test_calib))
+    }
+
+    #[test]
+    fn test_ph_conversion() {
+        let ph_measured = 4.0;
+        let calib = Calibration::default().with_slope(2.0);
+        let result = ph_convert(&ph_measured, &[calib.slope, calib.offset]);
+        let test_ph = 8.0;
+
+        assert!(approx_eq!(f64, result, test_ph))
     }
 }
